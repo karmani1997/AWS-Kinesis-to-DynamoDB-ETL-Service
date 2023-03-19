@@ -1,4 +1,7 @@
-## Kinesis-to-DynamoDB Lambda Function
+# Please find task 1 code under `task1` folder and `task2` as pdf attached here.
+
+
+## TASK 1 - Kinesis-to-DynamoDB Lambda Function
 This Lambda function is designed to process Kinesis data and update a DynamoDB table with product counts. The function is triggered by a Kinesis stream, and it expects the data in the stream to be in JSON format, with a lot_number field representing the product.
 
 ## Requirements
@@ -12,6 +15,7 @@ This Lambda function is designed to process Kinesis data and update a DynamoDB t
 Install necessary npm packages to run sls deployment commands in next section.
 
 ``` 
+cd task1
 npm install
 ```
 
