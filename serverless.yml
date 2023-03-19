@@ -1,0 +1,52 @@
+service: sls-stream-processor-task1
+
+plugins:
+  - serverless-python-requirements
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: us-east-1
+  iamRoleStatements: # define on a global level
+    - Effect: Allow
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:BatchWriteItem
+      Resource: "arn:aws:dynamodb:us-east-1:543031882402:table/*"
+
+package:
+  individually: true
+  patterns:
+    - '!**/**'
+
+
+functions:
+  streamProcessor:
+    handler: handler.lambda_handler
+    package:
+      patterns:
+        - handler.py     
+    events:
+      - stream:
+          type: kinesis
+          arn: arn:aws:kinesis:us-east-1:543031882402:stream/myStream
+          batchSize: 10 #actual batch limit can be configured later
+          startingPosition: LATEST #alternatively we can also use TRIM_HORIZON but not for realtime
+          maximumRetryAttempts: 3
+          consumer: true
+
+resources:
+  Resources:
+    MyDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: lot-numbers
+        AttributeDefinitions:
+          - AttributeName: lot_number
+            AttributeType: S
+        KeySchema:
+          - AttributeName: lot_number
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
