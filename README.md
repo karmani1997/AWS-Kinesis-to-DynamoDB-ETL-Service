@@ -1,4 +1,4 @@
-# Please find task 1 code under `task1` folder and `task2` as pdf attached here.
+# Please find task 1 code under `task1` folder and task 2 pdf attached under `task2`.
 
 
 ## TASK 1 - Kinesis-to-DynamoDB Lambda Function
